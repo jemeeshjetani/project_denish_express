@@ -1,0 +1,9 @@
+0. connect with github
+
+1. npm init -y //package.json creation 
+2. node --verison, npm --verison
+3. npm install -D nodemon
+
+4. Folder: routes, controller, middleware
+5. .gitignore, .env file creation
+
