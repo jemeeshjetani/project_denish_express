@@ -1,0 +1,20 @@
+{
+  "name": "denish_project1",
+  "email": "jemeeshjetani@gmail.com",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Jemeesh",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,11 +1,34 @@
+Features:
+data enter
+data get (list all, single)
+data delete
+data edit
+
 0. connect with github
 
-1. npm init -y //package.json creation 
-2. node --verison, npm --verison
+1. npm init -y //package.json creation. 
+- add "type": "module" to import ES6 modules. 
+- install express: npm i express
+2. node --version, npm --version
 3. npm install -D nodemon
 
 4. Folder: routes, controller, middleware
 5. .gitignore, .env file creation
-6.  
-7. 
+7. sample data: controller ma hase. multiple endpoint banavana chhe means multiple routes.
+8. .gitignore setup
+8. server setup: 
+index.js - root file:
+- .env PORT setup
+import express
+setup PORT
+9. While using ES6 module always use .js for local JavaScript files. 
+
+10. Test 1 route(endpoint) for the data.
+
+11. Push the project to the git at EOD. 
+create diff. branch each day & commit on the same.  
+
+
+
+
 
