@@ -4,31 +4,73 @@ data get (list all, single)
 data delete
 data edit
 
-0. connect with github
+0. connect with github: git push origin master
 
 1. npm init -y //package.json creation. 
 - add "type": "module" to import ES6 modules. 
 - install express: npm i express
-2. node --version, npm --version
-3. npm install -D nodemon
 
-4. Folder: routes, controller, middleware
-5. .gitignore, .env file creation
-7. sample data: controller ma hase. multiple endpoint banavana chhe means multiple routes.
-8. .gitignore setup
-8. server setup: 
+2. node --version, npm --version
+
+3. npm install -D 
+*** to run root file add this script:
+"scripts": {
+    "start": "nodemon index.js"
+  },
+
+4. Folder: 
+routes: multiple endpoint banavana chhe means multiple routes.
+controller: 1. sample data: controller ma hase. 2. Real Database sathe work ahiyathi thase
+middleware: 
+
+5. .gitignore, .env file setup
+
+8. Express server setup: 
+
 index.js - root file:
 - .env PORT setup
 import express
 setup PORT
+- create express() object. & listen on that using app.listen(): pass PORT & a callback function. 
+
 9. While using ES6 module always use .js for local JavaScript files. 
 
-10. Test 1 route(endpoint) for the data.
+10. Test one route(endpoint) for the data.
 
 11. Push the project to the git at EOD. 
 create diff. branch each day & commit on the same.  
+git push master origin
 
+12. 1. get:  
+    2. post: 1. new array element(object) banavvo. 2. Push in the existing array. 3. Print existing array. 
+    req.body. 
+    3. put: 1. new blank element 2. get data from req.body(id, title, rate) 3. change it manually
+    Event if I'm using PUT request I have to find the post & change the data manually by manipulation. 
+    4. delete: 
 
+==================================================================================================
+- For any kind of operation let's say get, post, put & delete, URL format/end point is extremely important.
+
+For get: 
+1. Get access to all posts 
+2. Get 1 post:
+Based on the parameter(:)
+Req.params.id(parameter name)
+3. Best on the query parameter(
+Req.query.limit = 
+
+For post:
+request.body.title
+request.body.(parameter name)
+
+For put:
+Find book:
+- book.title = req.body.title
+- book.rate = req.body.rate
+
+For delete: (here val means array element)
+. Filter ( val.id !== id)
+===================================================================================================
 
 
 
