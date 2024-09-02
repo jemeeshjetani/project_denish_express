@@ -1,3 +1,5 @@
+//defines endpoints
+
 import express from 'express';
 import { getBook, getBooks, createBook, updateBook, deleteBook } from '../controller/postController.js';
 
