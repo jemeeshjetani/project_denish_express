@@ -1,5 +1,7 @@
 //cotroller work with the database
 
+import { v4 as uuidv4 } from 'uuid';  //This imports the v4 method from the uuid package and renames it to uuidv4.
+
 const books = [
     { 'id': 1, 'title': 'First Book', 'rate': 49 },
     { 'id': 2, 'title': 'Second Book', 'rate': 61 },
@@ -22,8 +24,15 @@ const createBook = (req, res, next) => {
     //add new book(new object) in the books array
     //fetch book title & rate from the body
     //console.log(req.body); 
+
+    // Generate a unique ID for the book
+    const bookId = uuidv4();
+
+
+
     const newBook = {
-        "id": books.length + 1,
+        //"id": books.length + 1,
+        "id": bookId,
         "title": req.body.title,
         "rate": req.body.rate,
     }
