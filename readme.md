@@ -2,14 +2,15 @@ How branch is managed?
 master(production) | Development  | fea1, fea2(staging)
 
 What is uuid package:
-To generate a random book ID in an Express.js application, 
+To generate a random ID in an Express.js application, 
 you can use the uuid package, which is a good choice for generating unique identifiers.
 
 Install the uuid package:
 Terminal: npm install uuid
 
 ES6: import { v4 as uuidv4 } from 'uuid';
-- generate unique id using const "id = v4()";
+- generate unique id using const "id = uuidv4()";    
+Note: It use function v4 as uuidv4(). 
 
 All test cases: 
 1. get all books
@@ -17,6 +18,9 @@ All test cases:
 3. add a book
 4. update a book
 5. delete a book
+
+https://fakerjs.dev/
+- genrate random data for database. 
 
 
 
