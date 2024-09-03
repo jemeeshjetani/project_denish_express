@@ -8,6 +8,7 @@ you can use the uuid package, which is a good choice for generating unique ident
 Install the uuid package:
 Terminal: npm install uuid
 
+ES6: import { v4 as uuidv4 } from 'uuid';
 - generate unique id using const "id = v4()";
 
 

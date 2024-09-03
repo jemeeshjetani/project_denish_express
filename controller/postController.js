@@ -2,10 +2,17 @@
 
 import { v4 as uuidv4 } from 'uuid';  //This imports the v4 method from the uuid package and renames it to uuidv4.
 
+/*
 const books = [
     { 'id': 1, 'title': 'First Book', 'rate': 49 },
     { 'id': 2, 'title': 'Second Book', 'rate': 61 },
     { 'id': 3, 'title': 'Third Book', 'rate': 451 }
+]; */
+
+const books = [
+    { 'id': uuidv4(), 'title': 'First Book', 'rate': 49 },
+    { 'id': uuidv4(), 'title': 'Second Book', 'rate': 61 },
+    { 'id': uuidv4(), 'title': 'Third Book', 'rate': 451 }
 ];
 
 const getBooks = (req, res, next) => {
@@ -14,7 +21,8 @@ const getBooks = (req, res, next) => {
 
 const getBook = (req, res, next) => {
     //req id ne database na id sathe match karavvu
-    const id = parseInt(req.params.id);
+    // const id = parseInt(req.params.id);
+    const id = req.params.id;   //because uuid are string based. 
     const book = books.find( (val) => val.id === id);
 
     res.status(200).json(book);
@@ -42,7 +50,8 @@ const createBook = (req, res, next) => {
 }
 
 const updateBook = (req, res, next) => {
-    const id = parseInt(req.params.id);
+    // const id = parseInt(req.params.id);
+    const id = req.params.id;   //because uuid are string based. 
     const book = books.find((val) => val.id === id);
 
     book.title = req.body.title;
@@ -51,7 +60,8 @@ const updateBook = (req, res, next) => {
 }
 
 const deleteBook = (req, res, next) => {
-    const id = parseInt(req.params.id);
+    //const id = parseInt(req.params.id);
+    const id = req.params.id;   //because uuid are string based.
     const rBooks = books.filter( (val) => val.id != id );
     res.status(200).json(rBooks);
 
