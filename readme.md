@@ -11,6 +11,13 @@ Terminal: npm install uuid
 ES6: import { v4 as uuidv4 } from 'uuid';
 - generate unique id using const "id = v4()";
 
+All test cases: 
+1. get all books
+2. get a book
+3. add a book
+4. update a book
+5. delete a book
+
 
 
 
