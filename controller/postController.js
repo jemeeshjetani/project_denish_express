@@ -16,7 +16,18 @@ const books = [
 ];
 
 const getBooks = (req, res, next) => {
-    res.status(200).json(books);
+
+    // Pagination, Search, and Filter
+    const { page = 1, search = '', minPrice, maxPrice } = req.query;
+
+    //Filter by search term (case-sensitive)
+    let filteredBooks = books.filter(val => 
+        val.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    
+
+    // res.status(200).json(books);
 }
 
 const getBook = (req, res, next) => {
