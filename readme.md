@@ -20,7 +20,10 @@ All test cases:
 5. delete a book
 
 https://fakerjs.dev/
-- genrate random data for database. 
+- generate random data for database. 
+
+Install Faker.js: 
+npm install @faker-js/faker
 
 
 
