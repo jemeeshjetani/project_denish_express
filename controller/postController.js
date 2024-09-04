@@ -15,17 +15,42 @@ const books = [
     { 'id': uuidv4(), 'title': 'Third Book', 'rate': 451 }
 ];
 
-const getBooks = (req, res, next) => {
+const getBooks = (req, res, next) => { 
 
-    // Pagination, Search, and Filter
-    const { page = 1, search = '', minPrice, maxPrice } = req.query;
+    // Pagination, Search, and Filter logic
+    const { search = '', minPrice = 60, maxPrice, requestedPage = 1 } = req.query;  //The req.query object parses these parameters 
+                                                                                    //so they can be easily accessed in your Express application.
 
-    //Filter by search term (case-sensitive)
+    //Filter by search term (case-sensitive check)
     let filteredBooks = books.filter(val => 
         val.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    //Filter by price range logic 
+    if(minPrice) {
+        filteredBooks = filteredBooks.filter( (val) => val.rate >= parseFloat(minPrice));
+    }
+
+    if(maxPrice) {
+        filteredBooks = filteredBooks.filter( (val) => val.rate <= parseFloat(maxPrice)); 
+    }
+
+    //Pagination logic
+    const perPage = 2;
+    const startIndex = (requestedPage - 1) * perPage;  //this logic counts start & end index 
+                                                       //for the requested page(1,2,3,4...) 
+    const endIndex =    startIndex + perPage;
     
+    const paginatedBooks = filteredBooks.slice(startIndex, endIndex);  //books on the requested page
+
+    res
+    .status(200)
+    .json( {
+        totalBooks: filteredBooks.length,
+        currentPage: requestedPage,
+        perPage: perPage,
+        books: paginatedBooks
+    } )
 
     // res.status(200).json(books);
 }

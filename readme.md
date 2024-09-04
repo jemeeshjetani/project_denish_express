@@ -1,7 +1,8 @@
 How branch is managed?
 master(production) | Development  | fea1, fea2(staging)
 
-What is uuid package:
+Genrating random ids using uuid:  
+What is uuid package?
 To generate a random ID in an Express.js application, 
 you can use the uuid package, which is a good choice for generating unique identifiers.
 
@@ -19,8 +20,12 @@ All test cases:
 4. update a book
 5. delete a book
 
+Genrate random data for database:
 https://fakerjs.dev/
-- genrate random data for database. 
+
+Search, Filter, Pagination:
+
+
 
 
 
