@@ -2,7 +2,7 @@
 In Express.js, the server refers to the Node.js application that listens for incoming HTTP requests and sends responses back to the client. 
 It is the backbone of your web application, handling the communication between the client (such as a browser or API consumer) and the server-side logic (such as routing, middleware, and database interactions(controllers) ).
 
-##How to run the server? 
+## How to run the server? 
 #### 1. Express application:
 import express from 'express';
 //create express object 
