@@ -1,6 +1,6 @@
 //cotroller work with the database
 
-import { v4 as uuidv4 } from 'uuid';  //This imports the v4 method from the uuid package and renames it to uuidv4.
+import { v4 as uuidv4 } from "uuid"; //This imports the v4 method from the uuid package and renames it to uuidv4.
 
 /*
 const books = [
@@ -10,99 +10,111 @@ const books = [
 ]; */
 
 const books = [
-    { 'id': uuidv4(), 'title': 'First Book', 'rate': 49 },
-    { 'id': uuidv4(), 'title': 'Second Book', 'rate': 61 },
-    { 'id': uuidv4(), 'title': 'Third Book', 'rate': 451 }
+	{ id: uuidv4(), title: "First Book", rate: 49 },
+	{ id: uuidv4(), title: "Second Book", rate: 61 },
+	{ id: uuidv4(), title: "Third Book", rate: 451 },
 ];
 
-const getBooks = (req, res, next) => { 
+const getBooks = (req, res, next) => {
+	// Pagination, Search, and Filter logic
+	const { search = "", minPrice, maxPrice, requestedPage = 2 } = req.body; //req.query; The req.query object parses these parameters
+	//so they can be easily accessed in your Express application.
 
-    // Pagination, Search, and Filter logic
-    const { search = '', minPrice = 60, maxPrice, requestedPage = 1 } = req.query;  //The req.query object parses these parameters 
-                                                                                    //so they can be easily accessed in your Express application.
+	const bookId = uuidv4();
 
-    //Filter by search term (case-sensitive check)
-    let filteredBooks = books.filter(val => 
-        val.title.toLowerCase().includes(search.toLowerCase())
-    );
+	if (req.body.title && req.body.rate) {
+		const newBook = {
+			//"id": books.length + 1,
+			id: bookId,
+			title: req.body.title,
+			rate: req.body.rate,
+		};
+		books.push(newBook);
+	}
 
-    //Filter by price range logic 
-    if(minPrice) {
-        filteredBooks = filteredBooks.filter( (val) => val.rate >= parseFloat(minPrice));
-    }
+	//Filter by search term (case-sensitive check)
+	let filteredBooks = books.filter((val) =>
+		val.title.toLowerCase().includes(search.toLowerCase()),
+	);
 
-    if(maxPrice) {
-        filteredBooks = filteredBooks.filter( (val) => val.rate <= parseFloat(maxPrice)); 
-    }
+	//Filter by price range logic
+	if (minPrice) {
+		filteredBooks = filteredBooks.filter(
+			(val) => val.rate >= parseFloat(minPrice),
+		);
+	}
 
-    //Pagination logic
-    const perPage = 2;
-    const startIndex = (requestedPage - 1) * perPage;  //this logic counts start & end index 
-                                                       //for the requested page(1,2,3,4...) 
-    const endIndex =    startIndex + perPage;
-    
-    const paginatedBooks = filteredBooks.slice(startIndex, endIndex);  //books on the requested page
+	if (maxPrice) {
+		filteredBooks = filteredBooks.filter(
+			(val) => val.rate <= parseFloat(maxPrice),
+		);
+	}
 
-    res
-    .status(200)
-    .json( {
-        totalBooks: filteredBooks.length,
-        currentPage: requestedPage,
-        perPage: perPage,
-        books: paginatedBooks
-    } )
+	//Pagination logic
+	const perPage = 2;
+	const startIndex = (requestedPage - 1) * perPage; //this logic counts start & end index
+	//for the requested page(1,2,3,4...)
+	const endIndex = startIndex + perPage;
 
-    // res.status(200).json(books);
-}
+	const paginatedBooks = filteredBooks.slice(startIndex, endIndex); //books on the requested page
 
+	res.status(200).json({
+		totalBooks: filteredBooks.length,
+		currentPage: requestedPage,
+		perPage: perPage,
+		books: paginatedBooks,
+	});
+};
+
+// res.status(200).json(books);
+
+/*
 const getBook = (req, res, next) => {
-    //req id ne database na id sathe match karavvu
-    // const id = parseInt(req.params.id);
-    const id = req.params.id;   //because uuid are string based. 
-    const book = books.find( (val) => val.id === id);
+	//req id ne database na id sathe match karavvu
+	// const id = parseInt(req.params.id);
+	const id = req.params.id; //because uuid are string based.
+	const book = books.find((val) => val.id === id);
 
-    res.status(200).json(book);
-}
+	res.status(200).json(book);
+};
+*/
 
+/* 
 const createBook = (req, res, next) => {
-    //add new book(new object) in the books array
-    //fetch book title & rate from the body
-    //console.log(req.body); 
+	//add new book(new object) in the books array
+	//fetch book title & rate from the body
+	//console.log(req.body);
 
-    // Generate a unique ID for the book
-    const bookId = uuidv4();
+	// Generate a unique ID for the book
+	const bookId = uuidv4();
 
+	const newBook = {
+		//"id": books.length + 1,
+		id: bookId,
+		title: req.body.title,
+		rate: req.body.rate,
+	};
 
-
-    const newBook = {
-        //"id": books.length + 1,
-        "id": bookId,
-        "title": req.body.title,
-        "rate": req.body.rate,
-    }
-
-    books.push(newBook);
-    res.status(201).json(books);
-}
+	books.push(newBook); 
+	res.status(201).json(books);  
+};
+*/
 
 const updateBook = (req, res, next) => {
-    // const id = parseInt(req.params.id);
-    const id = req.params.id;   //because uuid are string based. 
-    const book = books.find((val) => val.id === id);
+	// const id = parseInt(req.params.id);
+	const id = req.params.id; //because uuid are string based.
+	const book = books.find((val) => val.id === id);
 
-    book.title = req.body.title;
-    book.rate = req.body.rate; 
-    res.status(200).json(books);
-}
+	book.title = req.body.title;
+	book.rate = req.body.rate;
+	res.status(200).json(books);
+};
 
 const deleteBook = (req, res, next) => {
-    //const id = parseInt(req.params.id);
-    const id = req.params.id;   //because uuid are string based.
-    const rBooks = books.filter( (val) => val.id != id );
-    res.status(200).json(rBooks);
+	//const id = parseInt(req.params.id);
+	const id = req.params.id; //because uuid are string based.
+	const rBooks = books.filter((val) => val.id != id);
+	res.status(200).json(rBooks);
+};
 
-}
-
-export { getBook, getBooks, createBook, updateBook, deleteBook };
-
-
+export { getBooks, updateBook, deleteBook };
