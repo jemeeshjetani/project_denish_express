@@ -1,7 +1,53 @@
-How branch is managed?
+# What is server? 
+In Express.js, the server refers to the Node.js application that listens for incoming HTTP requests and sends responses back to the client. 
+It is the backbone of your web application, handling the communication between the client (such as a browser or API consumer) and the server-side logic (such as routing, middleware, and database interactions(controllers) ).
+
+##How to run the server? 
+#### 1. Express application:
+import express from 'express';
+//create express object 
+const app = express();
+
+#### 2. Routing: A server in Express defines routes to handle specific HTTP requests (e.g., GET, POST, PUT, DELETE). 
+we can create a specific file to create diff. routes. 
+const router = express.Router()
+
+router.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+#### 3. The server listens for incoming requests on a specific port. This is done using the listen() method. 
+- create port in .env file. PORT=8000
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+#### 4. Middleware: 
+Middleware functions are pieces of code that the Express server executes when handling requests. 
+These could include things like logging, parsing request bodies, or authenticating users.
+
+app.use(express.json());
+
+#### 5. Controller(file): Handling Requests and Responses
+The server receives a request, processes it (e.g., interacting with a database, applying business logic), and sends a response back to the client.
+The req object represents the incoming request, and the res object represents the outgoing response. 
+
+const getBook = (req, res, next) => {
+  const books = [{ title: 'Book 1' }, { title: 'Book 2' }];
+  res.json(books); // Sends a JSON response
+} ;
+
+#### 6. PORT:  
+The server runs on a specific port, which is like a channel through which clients can communicate with your application. 
+
+Common development ports are 3000, 5000, and 8080, but you can configure any available port.
+
+# How branch is managed?
 master(production) | Development  | fea1, fea2(staging)
 
-Genrating random ids using uuid:  
+# Genrating random ids using uuid:  
 What is uuid package?
 To generate a random ID in an Express.js application, 
 you can use the uuid package, which is a good choice for generating unique identifiers.
@@ -20,13 +66,23 @@ All test cases:
 4. update a book
 5. delete a book
 
-Genrate random data for database:
+# Genrate random data for database:
 https://fakerjs.dev/
 
-Search, Filter, Pagination:
+# Search, Filter, Pagination:
 
 
+Tasks:  
+Branch tree use karvu
+Prettier config file
+URL short karva
+readme.md indepth lakhvu
+get nu post ma convert karvu
 
+get books mate badha scenario lakhva
+grt book ma 404 throw karvi
+
+update book. splice use karvi. je jarur chhe e j return karvu
 
 
 

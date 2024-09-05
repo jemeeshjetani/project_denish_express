@@ -1,18 +1,18 @@
 //defines endpoints
 
 import express from 'express';
-import { getBook, getBooks, createBook, updateBook, deleteBook } from '../controller/postController.js';
+import { getBook, getBooks, createBook, updateBook, deleteBook } from '../controller/bookController.js';
 
 const router = express.Router();
 
-router.get('/api/books', getBooks);  //get all
+router.get('/', getBooks);  //get all
 
-router.get('/api/books/:id', getBook);  //get one
+router.get('/:id', getBook);  //get one
 
-router.post('/api/books', createBook);  //add 
+router.post('/', createBook);  //add 
 
-router.put('/api/books/:id', updateBook);  //update
+router.put('/:id', updateBook);  //update
 
-router.delete('/api/books/:id', deleteBook);  //delete
+router.delete('/:id', deleteBook);  //delete
 
 export default router;
