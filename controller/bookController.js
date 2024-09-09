@@ -18,7 +18,7 @@ const books = [
 const getBooks = (req, res, next) => {
 	// Pagination, Search, and Filter logic
 
-	const { search = "", minPrice, maxPrice, page = 2, limit } = req.body; //req.query; The req.query object parses these parameters
+	const { search = "", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
 	//so they can be easily accessed in your Express application.
 
 	if (books == []) {

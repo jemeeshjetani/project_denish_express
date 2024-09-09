@@ -22,11 +22,27 @@ res.send('Hello World');
 
 All test cases:
 
-1. get all books
+1. get all books:
+   /api/posts: filter()
+
 2. get a book
+   /i:id: find()
+   if(!post): 404
+
 3. add a book
+   /create: .push()
+
 4. update a book
+   /api/posts:
+   if(!posts): 404
+
 5. delete a book
+   /api/posts: splice: delete an element
+   if(postIndex === -1): 404
+
+6. Common error
+
+-
 
 #### 3. The server listens for incoming requests on a specific port. This is done using the listen() method.
 
@@ -129,7 +145,7 @@ Optionally, integrate Prettier with Git hooks for pre-commit formatting.
 Tasks:  
 Q: New Branch Name-Source use karvu - meeting ma samajvu
 
-get books mate badha scenario lakhva
-grt book ma 404 throw karvi - running
+get books mate badha scenario lakhva -
+grt book ma 404 throw karvi - running - done
 
-update book. splice use karvi. je jarur chhe e j return karvu
+update book. splice use karvi. je jarur chhe e j return karvu - done
