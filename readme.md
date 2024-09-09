@@ -104,6 +104,9 @@ Yes - Set up Prettier in your IDE (such as VSCode) for automatic formatting on s
 > Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
 
 code:
+"editor.wrappingIndent": "same", //Use these 2 for wrapping content atomatically
+"editor.wordWrap": "on",
+
 "editor.formatOnSave": true,
 "[javascript]": {
 "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -115,7 +118,8 @@ code:
 
 Optionally, integrate Prettier with Git hooks for pre-commit formatting.
 
-in .prettierrc file
+#### in .prettierrc file
+
 {
 "tabWidth": 2
 }
@@ -125,9 +129,7 @@ in .prettierrc file
 Tasks:  
 Q: New Branch Name-Source use karvu - meeting ma samajvu
 
-get nu post ma convert karvu
-
 get books mate badha scenario lakhva
-grt book ma 404 throw karvi
+grt book ma 404 throw karvi - running
 
 update book. splice use karvi. je jarur chhe e j return karvu

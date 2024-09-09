@@ -17,19 +17,12 @@ const books = [
 
 const getBooks = (req, res, next) => {
 	// Pagination, Search, and Filter logic
-	const { search = "", minPrice, maxPrice, requestedPage = 2 } = req.body; //req.query; The req.query object parses these parameters
+
+	const { search = "", minPrice, maxPrice, page = 2, limit } = req.body; //req.query; The req.query object parses these parameters
 	//so they can be easily accessed in your Express application.
 
-	const bookId = uuidv4();
-
-	if (req.body.title && req.body.rate) {
-		const newBook = {
-			//"id": books.length + 1,
-			id: bookId,
-			title: req.body.title,
-			rate: req.body.rate,
-		};
-		books.push(newBook);
+	if (books == []) {
+		res.status(404).json("No book found!");
 	}
 
 	//Filter by search term (case-sensitive check)
@@ -51,70 +44,104 @@ const getBooks = (req, res, next) => {
 	}
 
 	//Pagination logic
-	const perPage = 2;
-	const startIndex = (requestedPage - 1) * perPage; //this logic counts start & end index
+	//const limit = req.body.limit;
+
+	const startIndex = (page - 1) * limit; //this logic counts start & end index
 	//for the requested page(1,2,3,4...)
-	const endIndex = startIndex + perPage;
+	const endIndex = page * limit;
 
 	const paginatedBooks = filteredBooks.slice(startIndex, endIndex); //books on the requested page
 
 	res.status(200).json({
-		totalBooks: filteredBooks.length,
-		currentPage: requestedPage,
-		perPage: perPage,
+		totalCount: filteredBooks.length,
+		currentPage: page,
+		perPage: limit,
 		books: paginatedBooks,
 	});
 };
-
+//404 nahi ave.
 // res.status(200).json(books);
 
-/*
 const getBook = (req, res, next) => {
 	//req id ne database na id sathe match karavvu
 	// const id = parseInt(req.params.id);
-	const id = req.params.id; //because uuid are string based.
+	const id = req.params.id;
+
 	const book = books.find((val) => val.id === id);
+
+	if (!book) {
+		res.status(404).json({ message: `Book with id ${id} is not found` });
+	}
 
 	res.status(200).json(book);
 };
-*/
 
-/* 
 const createBook = (req, res, next) => {
 	//add new book(new object) in the books array
 	//fetch book title & rate from the body
 	//console.log(req.body);
 
+	// Check if both title and rate are provided and if title is a valid string & rate is a valid number
+	if (
+		!req.body.title ||
+		typeof req.body.title !== "string" ||
+		!req.body.rate ||
+		typeof req.body.rate !== "number"
+	) {
+		return res.status(400).json({
+			error:
+				"Invalid input. Please provide a valid title (string) and rate (number).",
+		});
+	}
+
 	// Generate a unique ID for the book
 	const bookId = uuidv4();
 
+	//"id": books.length + 1,
 	const newBook = {
-		//"id": books.length + 1,
 		id: bookId,
 		title: req.body.title,
 		rate: req.body.rate,
 	};
 
-	books.push(newBook); 
-	res.status(201).json(books);  
+	books.push(newBook);
+	res.status(201).json(newBook);
 };
-*/
 
 const updateBook = (req, res, next) => {
 	// const id = parseInt(req.params.id);
 	const id = req.params.id; //because uuid are string based.
 	const book = books.find((val) => val.id === id);
 
+	if (!book) {
+		return res
+			.status(404)
+			.json({ message: `Book with id ${id} is not found!` });
+	}
+
 	book.title = req.body.title;
 	book.rate = req.body.rate;
-	res.status(200).json(books);
+	res.status(200).json(book);
 };
 
 const deleteBook = (req, res, next) => {
 	//const id = parseInt(req.params.id);
-	const id = req.params.id; //because uuid are string based.
-	const rBooks = books.filter((val) => val.id != id);
-	res.status(200).json(rBooks);
+	const id = req.params.id; //Get the book id from request params
+	const bookIndex = books.findIndex((val) => val.id === id); // Find the index of the book
+
+	if (bookIndex === -1) {
+		return res.status(404).json({ error: `Book with id ${id} is not found!` });
+	}
+
+	//remove the book from the array
+	const deletedBook = books.splice(bookIndex, 1); //Use splice() to delete the book from the array
+
+	//const rBooks = books.filter((val) => val.id != id);
+
+	res.status(200).json({
+		message: "Book succesfully deleted",
+		deletedBook: deletedBook[0],
+	});
 };
 
-export { getBooks, updateBook, deleteBook };
+export { getBooks, getBook, createBook, updateBook, deleteBook };

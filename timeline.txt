@@ -41,12 +41,13 @@ setup PORT
 create diff. branch each day & commit on the same.  
 git push master origin
 
-12. 1. get:  
-    2. post: 1. new array element(object) banavvo. 2. Push in the existing array. 3. Print existing array. 
-    req.body. 
-    3. put: 1. new blank element 2. get data from req.body(id, title, rate) 3. change it manually
-    Event if I'm using PUT request I have to find the post & change the data manually by manipulation. 
-    4. delete: 
+12. 
+1. get:  
+2. post: 1. new array element(object) banavvo. 2. Push in the existing array. 3. Print existing array. 
+   req.body. 
+3. put: 1. new blank element 2. get data from req.body(id, title, rate) 3. change it manually
+  Event if I'm using PUT request I have to find the post & change the data manually by manipulation. 
+4. delete: 
 
 ==================================================================================================
 - For any kind of operation let's say get, post, put & delete, URL format/end point is extremely important.
@@ -55,9 +56,15 @@ For get:
 1. Get access to all posts 
 2. Get 1 post:
 Based on the parameter(:)
-Req.params.id(parameter name)
+
+```http
+req.params.id(parameter name)
+```
+
 3. Best on the query parameter(
-Req.query.limit = 
+```http
+req.query.limit = 
+```
 
 For post:
 request.body.title
