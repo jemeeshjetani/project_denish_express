@@ -3,78 +3,125 @@
 In Express.js, the server refers to the Node.js application that listens for incoming HTTP requests and sends responses back to the client.
 It is the backbone of your web application, handling the communication between the client (such as a browser or API consumer) and the server-side logic (such as routing, middleware, and database interactions(controllers) ).
 
-## How to run the server?
+### How to run the server?
 
-#### 1. Express application:
+Creating express application:
+Create express() object.
 
+The server runs on a specific port, which is like a channel through which clients can communicate with your application.
+Common development ports are 3000, 5000, and 8080, but you can configure any available port.
+
+```http
 import express from 'express';
-//create express object
+const PORT = process.env.PORT || 8000;
+
 const app = express();
+```
+
+The server listens for incoming requests on a specific port. This is done using the listen() method.
+
+```http
+app.listen(PORT, () => {
+console.log(`Server is running on port ${PORT}`);
+});
+```
 
 #### 2. Routing: A server in Express defines routes to handle specific HTTP requests (e.g., GET, POST, PUT, DELETE).
 
-we can create a specific file to create diff. routes.
+We can create a specific file to create diff. routes.
+
+```http
 const router = express.Router()
 
 router.get('/', (req, res) => {
 res.send('Hello World');
 });
+```
 
-All test cases:
+#### All test cases/scenario:
 
-1. get all books:
-   /api/posts: filter()
+###### 1. POST /api/books get all books:
 
-2. get a book
-   /i:id: find()
-   if(!post): 404
+(We have converted GET into POST)
 
-3. add a book
-   /create: .push()
+Scenario 1: Fetch all books.
 
-4. update a book
-   /api/posts:
-   if(!posts): 404
+Scenario 2: Test pagination (limit and page req.body elements).
 
-5. delete a book
-   /api/posts: splice: delete an element
-   if(postIndex === -1): 404
+Scenario 3: Search by title
 
-6. Common error
+Scenario 4: Filter by price range (minPrice, maxPrice).
 
--
+###### 2. GET /api/books/:id get book by id
 
-#### 3. The server listens for incoming requests on a specific port. This is done using the listen() method.
+Scenario 1: Fetch an existing book by ID.
 
-- create port in .env file. PORT=8000
+Scenario 2: Test with an invalid ID or non-existent ID (should return 404).
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-console.log(`Server is running on port ${PORT}`);
-});
+###### 3. POST /api/books/create create a new book
 
-#### 4. Middleware:
+Scenario 1: Create a book with valid data.
+
+Scenario 2: Test with missing title or rate (should return 400 Bad Request).
+
+Scenario 3: Test with invalid data type for rate (e.g., a string instead of a number).
+
+###### 4. PUT /api/books/ update existing post
+
+Scenario 1: Update an existing book.
+
+Scenario 2: Test with an invalid or non-existent book ID (should return 404).
+
+Scenario 3: Test with invalid data (e.g., no title or rate, title not a string, rate not a number).
+
+###### 5. DELETE /api/books/ delete a post
+
+Scenario 1: Delete a book that exists.
+
+Scenario 2: Test with an invalid or non-existent book ID (should return 404).
+
+###### 6. Catch-all route for Not found 404, middleware
+
+```http
+const notFound = (req, res, next) => {
+
+ res.status(404).json({
+  message: "not found",
+  error: `The requested resource ${req.originalUrl} was not found on this server.`,
+ });
+};
+```
+
+###### 4. Middleware:
 
 Middleware functions are pieces of code that the Express server executes when handling requests.
+
 These could include things like logging, parsing request bodies, or authenticating users.
 
-app.use(express.json());
+To send raw json data
 
-#### 5. Controller(file): Handling Requests and Responses
+```http
+app.use(express.json());
+```
+
+books.js router handler
+
+```http
+import router from './routes/books.js'; (import router )
+app.use("/api/books", books);
+```
+
+###### 5. Controller(file): Handling Requests and Responses
 
 The server receives a request, processes it (e.g., interacting with a database, applying business logic), and sends a response back to the client.
 The req object represents the incoming request, and the res object represents the outgoing response.
 
+```http
 const getBook = (req, res, next) => {
 const books = [{ title: 'Book 1' }, { title: 'Book 2' }];
 res.json(books); // Sends a JSON response
 } ;
-
-#### 6. PORT:
-
-The server runs on a specific port, which is like a channel through which clients can communicate with your application.
-
-Common development ports are 3000, 5000, and 8080, but you can configure any available port.
+```
 
 # How branch is managed?
 
@@ -91,7 +138,7 @@ Terminal: npm install uuid
 
 ES6: import { v4 as uuidv4 } from 'uuid';
 
-- generate unique id using const "id = uuidv4()";  
+- generate unique id using const "id = uuidv4()";
   Note: It use function v4 as uuidv4().
 
 # Genrate random data for database:
@@ -101,11 +148,6 @@ https://fakerjs.dev/
 # Search, Filter, Pagination:
 
 Features:
-
-# add common URL/route in middlware
-
-import router from './routes/books.js'; (import router )
-app.use('/api/books', books); //Enter common path, enter filename
 
 # Prettier Setup:
 
@@ -142,10 +184,14 @@ Optionally, integrate Prettier with Git hooks for pre-commit formatting.
 
 # API Documentation
 
-Tasks:  
+Tasks:
 Q: New Branch Name-Source use karvu - meeting ma samajvu
 
 get books mate badha scenario lakhva -
 grt book ma 404 throw karvi - running - done
 
 update book. splice use karvi. je jarur chhe e j return karvu - done
+
+```
+
+```
