@@ -83,6 +83,8 @@ res.send('Hello World');
 ###### 6. Catch-all route for Not found 404, middleware
 
 ```http
+app.use(notFound);
+
 const notFound = (req, res, next) => {
 
  res.status(404).json({
@@ -133,10 +135,10 @@ What is uuid package?
 To generate a random ID in an Express.js application,
 you can use the uuid package, which is a good choice for generating unique identifiers.
 
-Install the uuid package:
+Install the uuid package(Terminal):
 
 ```http
-Terminal: npm install uuid
+npm install uuid
 ```
 
 Generate unique id using uuid ES6 module:
@@ -151,7 +153,23 @@ Note: It use function v4 as uuidv4().
 
 # Genrate random data for database:
 
-https://fakerjs.dev/
+```http
+import { faker } from '@faker-js/faker';
+
+// Function to generate a random book
+const generateBook = () => {
+    return {
+        id: faker.string.uuid(),
+        title: faker.lorem.words(),
+        author: faker.person.fullName(),
+        publishedDate: faker.date.past().toISOString().split('T')[0],
+        price: faker.commerce.price(),
+        rating: faker.number.float({ min: 0, max: 5, multipleOf: 0.1 })
+    };
+};
+```
+
+(https://fakerjs.dev/)
 
 # Search, Filter, Pagination:
 
@@ -159,27 +177,34 @@ Features:
 
 # Prettier Setup:
 
-Yes - Install Prettier using npm.
+###### Install Prettier using npm.
 
 ```http
 npm install --save-dev prettier
 ```
 
-Yes - Create a .prettierrc file for custom configurations.
-
-Optionally, add a .prettierignore file to exclude files or directories. - Not used
-
-Yes - Set up Prettier in your IDE (such as VSCode) for automatic formatting on save.
+###### Create a .prettierrc file for custom configurations.
 
 ```http
-Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
+{
+  "tabWidth": 1,  // It leaves 2 spaces
+}
 ```
 
+###### Optionally, add a .prettierignore file to exclude files or directories.
+
+###### Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
+
+Set up Prettier in your IDE (such as VSCode) for automatic formatting on save.
+
+settings.json:
+
 ```http
-"editor.wrappingIndent": "same", //Use these 2 for wrapping content atomatically
+// "editor.wrappingIndent": "same",  Use these 2 for wrapping content atomatically
 "editor.wordWrap": "on",
 
 "editor.formatOnSave": true,
+
 "[javascript]": {
 "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
@@ -189,13 +214,13 @@ Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier
 }
 ```
 
-Optionally, integrate Prettier with Git hooks for pre-commit formatting.
+###### Optionally, integrate Prettier with Git hooks for pre-commit formatting.
 
 #### in .prettierrc file
 
 ```http
 {
-"tabWidth": 2
+"tabWidth": 1   //for 1 it will leave 2 spaces.
 }
 ```
 
