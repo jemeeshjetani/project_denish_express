@@ -1,18 +1,24 @@
 //defines endpoints
 
-import express from 'express';
-import { getBook, getBooks, createBook, updateBook, deleteBook } from '../controller/postController.js';
+import express from "express";
+import {
+ getBooks,
+ getBook,
+ createBook,
+ updateBook,
+ deleteBook,
+} from "../controller/bookController.js";
 
 const router = express.Router();
 
-router.get('/api/books', getBooks);  //get all
+router.post("/", getBooks); //get all. We converted GET into POST because it is easy for developer to 'send' & 'query' data from req.body rather than as a URL query parameters.
 
-router.get('/api/books/:id', getBook);  //get one
+router.get("/:id", getBook); //get one
 
-router.post('/api/books', createBook);  //add 
+router.post("/create", createBook); //add
 
-router.put('/api/books/:id', updateBook);  //update
+router.put("/:id", updateBook); //update
 
-router.delete('/api/books/:id', deleteBook);  //delete
+router.delete("/:id", deleteBook); //delete
 
 export default router;
