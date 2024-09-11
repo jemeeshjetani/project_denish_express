@@ -44,41 +44,41 @@ res.send('Hello World');
 
 (We have converted GET into POST)
 
-Scenario 1: Fetch all books.
+**Scenario 1:** Fetch all books.
 
-Scenario 2: Test pagination (limit and page req.body elements).
+**Scenario 2:** Test pagination (limit and page req.body elements).
 
-Scenario 3: Search by title
+**Scenario 3:** Search by title
 
-Scenario 4: Filter by price range (minPrice, maxPrice).
+**Scenario 4:** Filter by price range (minPrice, maxPrice).
 
 ###### 2. GET /api/books/:id get book by id
 
-Scenario 1: Fetch an existing book by ID.
+**Scenario 1:** Fetch an existing book by ID.
 
-Scenario 2: Test with an invalid ID or non-existent ID (should return 404).
+**Scenario 2:** Test with an invalid ID or non-existent ID (should return 404).
 
 ###### 3. POST /api/books/create create a new book
 
-Scenario 1: Create a book with valid data.
+**Scenario 1:** Create a book with valid data.
 
-Scenario 2: Test with missing title or rate (should return 400 Bad Request).
+**Scenario 2:** Test with missing title or rate (should return 400 Bad Request).
 
-Scenario 3: Test with invalid data type for rate (e.g., a string instead of a number).
+**Scenario 3:** Test with invalid data type for rate (e.g., a string instead of a number).
 
 ###### 4. PUT /api/books/ update existing post
 
-Scenario 1: Update an existing book.
+**Scenario 1:** Update an existing book.
 
-Scenario 2: Test with an invalid or non-existent book ID (should return 404).
+**Scenario 2:** Test with an invalid or non-existent book ID (should return 404).
 
-Scenario 3: Test with invalid data (e.g., no title or rate, title not a string, rate not a number).
+**Scenario 3:** Test with invalid data (e.g., no title or rate, title not a string, rate not a number).
 
 ###### 5. DELETE /api/books/ delete a post
 
-Scenario 1: Delete a book that exists.
+**Scenario 1:** Delete a book that exists.
 
-Scenario 2: Test with an invalid or non-existent book ID (should return 404).
+**Scenario 2:** Test with an invalid or non-existent book ID (should return 404).
 
 ###### 6. Catch-all route for Not found 404, middleware
 
@@ -127,19 +127,27 @@ res.json(books); // Sends a JSON response
 
 master(production) | Development | fea1, fea2(staging)
 
-# Genrating random ids using uuid:
+# Generating random ids using uuid:
 
 What is uuid package?
 To generate a random ID in an Express.js application,
 you can use the uuid package, which is a good choice for generating unique identifiers.
 
 Install the uuid package:
+
+```http
 Terminal: npm install uuid
+```
 
-ES6: import { v4 as uuidv4 } from 'uuid';
+Generate unique id using uuid ES6 module:
 
-- generate unique id using const "id = uuidv4()";
-  Note: It use function v4 as uuidv4().
+```http
+import { v4 as uuidv4 } from 'uuid';
+
+const id = uuidv4();
+```
+
+Note: It use function v4 as uuidv4().
 
 # Genrate random data for database:
 
@@ -151,17 +159,23 @@ Features:
 
 # Prettier Setup:
 
-Yes - Install Prettier using npm. npm install --save-dev prettier
+Yes - Install Prettier using npm.
+
+```http
+npm install --save-dev prettier
+```
 
 Yes - Create a .prettierrc file for custom configurations.
 
-Optionally, add a .prettierignore file to exclude files or directories. - cancelled
+Optionally, add a .prettierignore file to exclude files or directories. - Not used
 
 Yes - Set up Prettier in your IDE (such as VSCode) for automatic formatting on save.
 
-> Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
+```http
+Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
+```
 
-code:
+```http
 "editor.wrappingIndent": "same", //Use these 2 for wrapping content atomatically
 "editor.wordWrap": "on",
 
@@ -173,25 +187,19 @@ code:
 "[html]": {
 "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
+```
 
 Optionally, integrate Prettier with Git hooks for pre-commit formatting.
 
 #### in .prettierrc file
 
+```http
 {
 "tabWidth": 2
 }
+```
 
 # API Documentation
 
 Tasks:
 Q: New Branch Name-Source use karvu - meeting ma samajvu
-
-get books mate badha scenario lakhva -
-grt book ma 404 throw karvi - running - done
-
-update book. splice use karvi. je jarur chhe e j return karvu - done
-
-```
-
-```
