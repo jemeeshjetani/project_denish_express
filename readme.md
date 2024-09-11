@@ -153,6 +153,12 @@ Note: It use function v4 as uuidv4().
 
 # Genrate random data for database:
 
+Install Faker.js: 
+
+```http
+npm install @faker-js/faker
+```
+
 ```http
 import { faker } from '@faker-js/faker';
 
