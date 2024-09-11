@@ -169,11 +169,51 @@ const generateBook = () => {
 };
 ```
 
-(https://fakerjs.dev/)
+ref: (https://fakerjs.dev/)
 
-# Search, Filter, Pagination:
+# Search(keyword), Filter(minPrice, maxPrice), Pagination(page, limit):
 
-Features:
+- Define req.body with default values.
+
+**Search(keyword)**
+
+```htttp
+
+const { search = " ", minPrice, maxPrice, page = 1, limit = 2 } = req.body;
+
+let filteresBooks = books.filter( (val) => {
+   val.title.toLowerCase().includes(search.toLowerCase()),
+})
+```
+
+**Filter(minPrice, maxPrice)**
+//Filter by price range logic
+
+if (minPrice) {
+filteredBooks = filteredBooks.filter(
+(val) => val.rate >= parseFloat(minPrice),
+);
+}
+
+if (maxPrice) {
+filteredBooks = filteredBooks.filter(
+(val) => val.rate <= parseFloat(maxPrice),
+);
+}
+
+**Pagination(Page, limit)**
+const startIndex = (page - 1) _ limit; //this logic counts start & end index
+const endIndex = page _ limit;
+
+const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
+
+**Result page**
+res.status(200).json({
+totalCount: filteredBooks.length,
+currentPage: page,
+perPage: limit,
+books: paginatedBooks,
+});
 
 # Prettier Setup:
 
@@ -183,15 +223,15 @@ Features:
 npm install --save-dev prettier
 ```
 
-###### Create a .prettierrc file for custom configurations.
+###### Create a .prettierrc(prettier configuration) file for custom configurations.
 
 ```http
 {
-  "tabWidth": 1,  // It leaves 2 spaces
+  "tabWidth": 1,  //  //for 1 it will leaves 2 spaces
 }
 ```
 
-###### Optionally, add a .prettierignore file to exclude files or directories.
+###### [Optional] add a .prettierignore file to exclude files or directories.
 
 ###### Ctrl + Shift + P: Preferences: Open Settings (JSON): edit settings: set prettier as default
 
@@ -215,14 +255,6 @@ settings.json:
 ```
 
 ###### Optionally, integrate Prettier with Git hooks for pre-commit formatting.
-
-#### in .prettierrc file
-
-```http
-{
-"tabWidth": 1   //for 1 it will leave 2 spaces.
-}
-```
 
 # API Documentation
 

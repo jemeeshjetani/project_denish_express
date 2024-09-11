@@ -21,7 +21,7 @@ const getBooks = (req, res, next) => {
  const { search = " ", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
  //so they can be easily accessed in your Express application.
 
- if (books == []) {
+ if ((books = [])) {
   res.status(404).json("No book found!");
  }
 
