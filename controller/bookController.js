@@ -18,27 +18,36 @@ const books = [
 const getBooks = (req, res, next) => {
  // Pagination, Search, and Filter logic
 
- const { search = " ", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
+ const { search = "", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
  //so they can be easily accessed in your Express application.
 
- if ((books = [])) {
-  res.status(404).json("No book found!");
- }
+ //if (books == []) {
+ // res.status(404).json("No book found!");
+ //}
+
+ let filteredBooks = books;
 
  //Filter by search term (case-sensitive check)
  //This works for title only.
- let filteredBooks = books.filter((val) =>
-  val.title.toLowerCase().includes(search.toLowerCase()),
- );
-
- //Filter by price range logic
- if (minPrice) {
-  filteredBooks = filteredBooks.filter(
-   (val) => val.rate >= parseFloat(minPrice),
+ if (search && search.trim()) {
+  // This means the user entered a valid non-empty string
+  filteredBooks = books.filter((val) =>
+   val.title.toLowerCase().includes(search.toLowerCase()),
   );
  }
 
- if (maxPrice) {
+ //Filter by price range logic
+
+ if (minPrice && maxPrice) {
+  filteredBooks = filteredBooks.filter(
+   (val) =>
+    val.rate >= parseFloat(minPrice) && val.rate <= parseFloat(maxPrice),
+  ); //parseInt(): convert string into Integer
+ } else if (minPrice) {
+  filteredBooks = filteredBooks.filter(
+   (val) => val.rate >= parseFloat(minPrice),
+  );
+ } else if (maxPrice) {
   filteredBooks = filteredBooks.filter(
    (val) => val.rate <= parseFloat(maxPrice),
   );
@@ -54,10 +63,10 @@ const getBooks = (req, res, next) => {
  const paginatedBooks = filteredBooks.slice(startIndex, endIndex); //books on the requested page
 
  res.status(200).json({
-  totalCount: filteredBooks.length,
-  currentPage: page,
-  perPage: limit,
-  books: paginatedBooks,
+  Count: filteredBooks.length,
+  Page: page,
+  Limit: limit,
+  Books: paginatedBooks,
  });
 };
 //404 nahi ave.
@@ -71,7 +80,7 @@ const getBook = (req, res, next) => {
  const book = books.find((val) => val.id === id);
 
  if (!book) {
-  res.status(404).json({ message: `Book with id ${id} is not found` });
+  res.status(404).json({ error: `Book with id ${id} is not found` });
  }
 
  res.status(200).json(book);
@@ -110,12 +119,12 @@ const createBook = (req, res, next) => {
 };
 
 const updateBook = (req, res, next) => {
- // const id = parseInt(req.params.id);
+ // const id = parseInt(req.params.id);  convert string into integer
  const id = req.params.id; //because uuid are string based.
- const book = books.find((val) => val.id === id);
+ const bookIndex = books.findIndex((val) => val.id === id);
 
- if (!book) {
-  return res.status(404).json({ message: `Book with id ${id} is not found!` });
+ if (bookIndex === -1) {
+  return res.status(404).json({ error: `Book with id ${id} is not found!` });
  }
 
  //if(!req.body.title || !req.body.rate) {
@@ -123,23 +132,39 @@ const updateBook = (req, res, next) => {
  //}
 
  // Update only if title and rate are provided in the body
+
+ if (!req.body.title && !req.body.rate) {
+  res.status(404).json({ error: `Enter title or rate to update` });
+ }
+
  if (req.body.title && typeof req.body.title !== "string") {
-  res.status(404).json({ message: `Title must be a string!` });
+  res.status(404).json({ error: `Title must be a string!` });
  }
 
  if (req.body.rate && typeof req.body.rate !== "number") {
-  res.status(404).json({ message: `Rate must be a number!` });
+  res.status(404).json({ error: `Rate must be a number!` });
  }
 
+ /*
  if (req.body.title) {
   book.title = req.body.title;
  }
 
  if (req.body.rate) {
   book.rate = req.body.rate;
+ } */
+
+ // Update the book's title if it's provided, otherwise keep the existing title
+ if (req.body.title && typeof req.body.title === "string") {
+  books[bookIndex].title = req.body.title;
  }
 
- res.status(200).json(book);
+ // Update the book's rate if it's provided, otherwise keep the existing rate
+ if (req.body.rate && typeof req.body.rate === "number") {
+  books[bookIndex].rate = req.body.rate;
+ }
+
+ res.status(200).json(books[bookIndex]);
 };
 
 const deleteBook = (req, res, next) => {
