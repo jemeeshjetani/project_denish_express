@@ -1,6 +1,8 @@
 //cotroller work with the database
 
 import { v4 as uuidv4 } from "uuid"; //This imports the v4 method from the uuid package and renames it to uuidv4.
+import { booksArray } from "./booksdata.js";
+import { faker } from "@faker-js/faker";
 
 /*
 const books = [
@@ -9,14 +11,15 @@ const books = [
     { 'id': 3, 'title': 'Third Book', 'rate': 451 }
 ]; */
 
-const books = [
+/* const books = [
  { id: uuidv4(), title: "First Book", rate: 49 },
  { id: uuidv4(), title: "Second Book", rate: 61 },
  { id: uuidv4(), title: "Third Book", rate: 451 },
 ];
+*/
 
 const getBooks = (req, res, next) => {
- // Pagination, Search, and Filter logic
+ // Search, Filter, Pagination logic
 
  const { search = "", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
  //so they can be easily accessed in your Express application.
@@ -25,13 +28,15 @@ const getBooks = (req, res, next) => {
  // res.status(404).json("No book found!");
  //}
 
- let filteredBooks = books;
+ let filteredBooks = booksArray;
+
+ // let filteredBooks;
 
  //Filter by search term (case-sensitive check)
  //This works for title only.
  if (search && search.trim()) {
   // This means the user entered a valid non-empty string
-  filteredBooks = books.filter((val) =>
+  filteredBooks = booksArray.filter((val) =>
    val.title.toLowerCase().includes(search.toLowerCase()),
   );
  }
@@ -61,6 +66,7 @@ const getBooks = (req, res, next) => {
  const endIndex = page * limit;
 
  const paginatedBooks = filteredBooks.slice(startIndex, endIndex); //books on the requested page
+ //search, minPrice, maxPrice na hoy tyare root array jaruri chhe.
 
  res.status(200).json({
   Count: filteredBooks.length,
@@ -73,11 +79,16 @@ const getBooks = (req, res, next) => {
 // res.status(200).json(books);
 
 const getBook = (req, res, next) => {
+ if (Object.keys(req.body).length > 0) {
+  return res
+   .status(400)
+   .json({ error: "Request body should be empty when fetching a record" });
+ }
  //req id ne database na id sathe match karavvu
  // const id = parseInt(req.params.id);
  const id = req.params.id;
 
- const book = books.find((val) => val.id === id);
+ const book = booksArray.find((val) => val.id === id);
 
  if (!book) {
   res.status(404).json({ error: `Book with id ${id} is not found` });
@@ -91,7 +102,13 @@ const createBook = (req, res, next) => {
  //fetch book title & rate from the body
  //console.log(req.body);
 
- // Check if both title and rate are provided and if title is a valid string & rate is a valid number
+ if (Object.keys(req.body).length > 0) {
+  return res
+   .status(400)
+   .json({ error: "Request body should be empty when creating a record" });
+ }
+
+ /* Check if both title and rate are provided and if title is a valid string & rate is a valid number
  if (
   !req.body.title ||
   typeof req.body.title !== "string" ||
@@ -102,26 +119,26 @@ const createBook = (req, res, next) => {
    error:
     "Invalid input. Please provide a valid title (string) and rate (number).",
   });
- }
+ } */
 
  // Generate a unique ID for the book
- const bookId = uuidv4();
+ // const bookId = uuidv4();
 
  //"id": books.length + 1,
  const newBook = {
-  id: bookId,
-  title: req.body.title,
-  rate: req.body.rate,
+  id: faker.string.uuid(),
+  title: faker.lorem.words(),
+  rate: faker.commerce.price(),
  };
 
- books.push(newBook);
+ booksArray.push(newBook);
  res.status(201).json(newBook);
 };
 
 const updateBook = (req, res, next) => {
  // const id = parseInt(req.params.id);  convert string into integer
  const id = req.params.id; //because uuid are string based.
- const bookIndex = books.findIndex((val) => val.id === id);
+ const bookIndex = booksArray.findIndex((val) => val.id === id);
 
  if (bookIndex === -1) {
   return res.status(404).json({ error: `Book with id ${id} is not found!` });
@@ -134,7 +151,7 @@ const updateBook = (req, res, next) => {
  // Update only if title and rate are provided in the body
 
  if (!req.body.title && !req.body.rate) {
-  res.status(404).json({ error: `Enter title or rate to update` });
+  res.status(404).json({ error: `Enter title or rate or rating to update` });
  }
 
  if (req.body.title && typeof req.body.title !== "string") {
@@ -156,28 +173,33 @@ const updateBook = (req, res, next) => {
 
  // Update the book's title if it's provided, otherwise keep the existing title
  if (req.body.title && typeof req.body.title === "string") {
-  books[bookIndex].title = req.body.title;
+  booksArray[bookIndex].title = req.body.title;
  }
 
  // Update the book's rate if it's provided, otherwise keep the existing rate
  if (req.body.rate && typeof req.body.rate === "number") {
-  books[bookIndex].rate = req.body.rate;
+  booksArray[bookIndex].rate = req.body.rate;
  }
 
- res.status(200).json(books[bookIndex]);
+ res.status(200).json(booksArray[bookIndex]);
 };
 
 const deleteBook = (req, res, next) => {
+ if (Object.keys(req.body).length > 0) {
+  return res
+   .status(400)
+   .json({ error: "Request body should be empty when deleting a record" });
+ }
  //const id = parseInt(req.params.id);
  const id = req.params.id; //Get the book id from request params
- const bookIndex = books.findIndex((val) => val.id === id); // Find the index of the book
+ const bookIndex = booksArray.findIndex((val) => val.id === id); // Find the index of the book
 
  if (bookIndex === -1) {
   return res.status(404).json({ error: `Book with id ${id} is not found!` });
  }
 
  //remove the book from the array
- const deletedBook = books.splice(bookIndex, 1); //Use splice() to delete the book from the array
+ const deletedBook = booksArray.splice(bookIndex, 1); //Use splice() to delete the book from the array
 
  //const rBooks = books.filter((val) => val.id != id);
 
