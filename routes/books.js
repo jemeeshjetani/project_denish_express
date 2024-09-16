@@ -9,6 +9,7 @@ import {
  deleteBook,
 } from "../controller/bookController.js";
 import {
+ isEmptyRequestBody,
  validateGetAllReqBody,
  validateRequestBody,
 } from "../middleware/validateRequestBody.js";
@@ -19,13 +20,13 @@ router.post("/", validateGetAllReqBody, getBooks); //get all. We converted GET i
 
 // router.get("/:id", getBook); //get one
 
-router.post("/create", validateRequestBody, createBook); //add
+router.post("/create", createBook); //add
 
 router
  .route("/:id")
- .get(getBook)
+ .get(isEmptyRequestBody, getBook)
  .put(validateRequestBody, updateBook)
- .delete(deleteBook); //With this approach, all three HTTP methods (GET, PUT, DELETE) are handled under the same route /:id, making your code more concise and organized.
+ .delete(isEmptyRequestBody, deleteBook); //With this approach, all three HTTP methods (GET, PUT, DELETE) are handled under the same route /:id, making your code more concise and organized.
 
 // router.put("/:id", updateBook); //update
 
