@@ -26,3 +26,12 @@ export function validateGetAllReqBody(req, res, next) {
  }
  next();
 }
+
+export function isEmptyRequestBody(req, res, next) {
+ if (Object.keys(req.body).length > 0) {
+  return res
+   .status(400)
+   .json({ error: "You can not send Key:Value in Request Body" });
+ }
+ next();
+}

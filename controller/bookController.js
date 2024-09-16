@@ -11,12 +11,13 @@ const books = [
     { 'id': 3, 'title': 'Third Book', 'rate': 451 }
 ]; */
 
-/* const books = [
+let books = [
  { id: uuidv4(), title: "First Book", rate: 49 },
  { id: uuidv4(), title: "Second Book", rate: 61 },
  { id: uuidv4(), title: "Third Book", rate: 451 },
 ];
-*/
+
+books = books.concat(booksArray);
 
 const getBooks = (req, res, next) => {
  // Search, Filter, Pagination logic
@@ -28,15 +29,16 @@ const getBooks = (req, res, next) => {
  // res.status(404).json("No book found!");
  //}
 
- let filteredBooks = booksArray;
+ let filteredBooks = books;
 
  // let filteredBooks;
 
  //Filter by search term (case-sensitive check)
  //This works for title only.
- if (search && search.trim()) {
+ search = search.trim();
+ if (search) {
   // This means the user entered a valid non-empty string
-  filteredBooks = booksArray.filter((val) =>
+  filteredBooks = books.filter((val) =>
    val.title.toLowerCase().includes(search.toLowerCase()),
   );
  }
@@ -57,6 +59,7 @@ const getBooks = (req, res, next) => {
    (val) => val.rate <= parseFloat(maxPrice),
   );
  }
+ //use filteredBooks till here to count filtetered books
 
  //Pagination logic
  //const limit = req.body.limit;
@@ -80,9 +83,9 @@ const getBooks = (req, res, next) => {
 
 const getBook = (req, res, next) => {
  if (Object.keys(req.body).length > 0) {
-  return res
-   .status(400)
-   .json({ error: "Request body should be empty when fetching a record" });
+  return res.status(400).json({
+   error: "Request body should be empty when fetching a requested record",
+  });
  }
  //req id ne database na id sathe match karavvu
  // const id = parseInt(req.params.id);
@@ -102,13 +105,7 @@ const createBook = (req, res, next) => {
  //fetch book title & rate from the body
  //console.log(req.body);
 
- if (Object.keys(req.body).length > 0) {
-  return res
-   .status(400)
-   .json({ error: "Request body should be empty when creating a record" });
- }
-
- /* Check if both title and rate are provided and if title is a valid string & rate is a valid number
+ // Check if both title and rate are provided and if title is a valid string & rate is a valid number
  if (
   !req.body.title ||
   typeof req.body.title !== "string" ||
@@ -119,16 +116,17 @@ const createBook = (req, res, next) => {
    error:
     "Invalid input. Please provide a valid title (string) and rate (number).",
   });
- } */
+ }
 
  // Generate a unique ID for the book
  // const bookId = uuidv4();
 
  //"id": books.length + 1,
+
  const newBook = {
   id: faker.string.uuid(),
-  title: faker.lorem.words(),
-  rate: faker.commerce.price(),
+  title: req.body.title.trim(),
+  rate: req.body.rate,
  };
 
  booksArray.push(newBook);
@@ -185,11 +183,6 @@ const updateBook = (req, res, next) => {
 };
 
 const deleteBook = (req, res, next) => {
- if (Object.keys(req.body).length > 0) {
-  return res
-   .status(400)
-   .json({ error: "Request body should be empty when deleting a record" });
- }
  //const id = parseInt(req.params.id);
  const id = req.params.id; //Get the book id from request params
  const bookIndex = booksArray.findIndex((val) => val.id === id); // Find the index of the book
