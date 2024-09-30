@@ -25,20 +25,20 @@ const getBooks = (req, res, next) => {
  const { search = "", minPrice, maxPrice, page = 1, limit = 2 } = req.body; //req.query; The req.query object parses these parameters
  //so they can be easily accessed in your Express application.
 
- //if (books == []) {
+ //if (books === []) {
  // res.status(404).json("No book found!");
  //}
 
- let filteredBooks = books;
+ let filteredbooks = books;
 
- // let filteredBooks;
+ // let filteredbooks;
 
  //Filter by search term (case-sensitive check)
  //This works for title only.
  search = search.trim();
  if (search) {
   // This means the user entered a valid non-empty string
-  filteredBooks = books.filter((val) =>
+  filteredbooks = books.filter((val) =>
    val.title.toLowerCase().includes(search.toLowerCase()),
   );
  }
@@ -46,20 +46,20 @@ const getBooks = (req, res, next) => {
  //Filter by price range logic
 
  if (minPrice && maxPrice) {
-  filteredBooks = filteredBooks.filter(
+  filteredbooks = filteredbooks.filter(
    (val) =>
     val.rate >= parseFloat(minPrice) && val.rate <= parseFloat(maxPrice),
   ); //parseInt(): convert string into Integer
  } else if (minPrice) {
-  filteredBooks = filteredBooks.filter(
+  filteredbooks = filteredbooks.filter(
    (val) => val.rate >= parseFloat(minPrice),
   );
  } else if (maxPrice) {
-  filteredBooks = filteredBooks.filter(
+  filteredbooks = filteredbooks.filter(
    (val) => val.rate <= parseFloat(maxPrice),
   );
  }
- //use filteredBooks till here to count filtetered books
+ //use filteredbooks till here to count filtetered books
 
  //Pagination logic
  //const limit = req.body.limit;
@@ -68,14 +68,14 @@ const getBooks = (req, res, next) => {
  //for the requested page(1,2,3,4...)
  const endIndex = page * limit;
 
- const paginatedBooks = filteredBooks.slice(startIndex, endIndex); //books on the requested page
+ const paginatedbooks = filteredbooks.slice(startIndex, endIndex); //books on the requested page
  //search, minPrice, maxPrice na hoy tyare root array jaruri chhe.
 
  res.status(200).json({
-  Count: filteredBooks.length,
+  Count: filteredbooks.length,
   Page: page,
   Limit: limit,
-  Books: paginatedBooks,
+  Books: paginatedbooks,
  });
 };
 //404 nahi ave.
