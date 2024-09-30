@@ -128,6 +128,14 @@ const getBook = (req, res, next) => {
 
 master(production) | Development | fea1, fea2(staging)
 
+feat/one -> develop -> master
+feat/two
+
+develop
+
+- feat/one
+- feat/two
+
 # Generating random ids using uuid:
 
 What is uuid package?
