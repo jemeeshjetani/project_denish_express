@@ -1,4 +1,4 @@
-//cotroller work with the database
+//cotroller works with the database
 
 import { v4 as uuidv4 } from "uuid"; //This imports the v4 method from the uuid package and renames it to uuidv4.
 import { booksArray } from "./booksdata.js";
