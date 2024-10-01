@@ -1,8 +1,8 @@
 const validKeys = ["title", "rate"];
-const validKeys1 = ["search", "minPrice", "maxPrice", "page", "limit"];
+const validKeys1 = ["search", "minbPrice", "maxPrice", "page", "limit"];
 
 //for PUT
-export function validateRequestBody(req, res, next) {
+export function validatePutRequestBody(req, res, next) {
  const keys = Object.keys(req.body); //get array of all keys in req.body object
  const isValid = keys.every((val) => validKeys.includes(val));
 
@@ -29,9 +29,9 @@ export function validateGetAllReqBody(req, res, next) {
 
 export function isEmptyRequestBody(req, res, next) {
  if (Object.keys(req.body).length > 0) {
-  return res
-   .status(400)
-   .json({ error: "You can not send Key:Value in Request Body" });
+  return res.status(400).json({
+   error: "Request body should be empty when fetching a requested record",
+  });
  }
  next();
 }
